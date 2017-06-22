@@ -1,3 +1,4 @@
+import sys
 from setuptools import setup
 
 long_description = '''
@@ -104,6 +105,10 @@ I use this script quite a lot in Docker images. Usually I'll have the CMD execut
 This is the use case I've optimised for, so that's why envtpl by default will delete the original template file.
 '''  # noqa
 
+install_requires = ['Jinja2>=2.7']
+if sys.version_info < (2, 7):
+    install_requires.append('argparse>=1.0')
+
 setup(
     name='envtpl',
     version='0.5.3',
@@ -111,10 +116,7 @@ setup(
     entry_points={
         'console_scripts': ['envtpl = envtpl:main']
     },
-    install_requires=[
-        'argparse>=1.0',
-        'Jinja2>=2.7',
-    ],
+    install_requires=install_requires,
     author='Andreas Jansson',
     author_email='andreas@jansson.me.uk',
     description=('Render jinja2 templates on the command line using shell environment variables'),
