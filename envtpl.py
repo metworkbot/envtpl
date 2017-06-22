@@ -96,7 +96,9 @@ def process_file(input_filename, output_filename, variables,
 
 def _render_string(string, variables, undefined):
     template_name = 'template_name'
-    loader = jinja2.DictLoader({template_name: _unicodify(string)})
+    loader1 = jinja2.DictLoader({template_name: _unicodify(string)})
+    loader2 = jinja2.FileSystemLoader(os.getcwd())
+    loader = jinja2.ChoiceLoader([loader1, loader2])
     return _render(template_name, loader, variables, undefined)
 
 
