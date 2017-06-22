@@ -41,6 +41,8 @@ def main():
                         'with "%s", the output filename is the same as the input '
                         'filename, sans the %s extension. Otherwise, defaults to stdout.' %
                         (EXTENSION, EXTENSION))
+    parser.add_argument('-i', '--search-paths',
+                        help='coma separated additional search paths for template inheritance')
     parser.add_argument('--allow-missing', action='store_true',
                         help='Allow missing variables. By default, envtpl will die with exit '
                         'code 1 if an environment variable is missing')
@@ -52,8 +54,12 @@ def main():
     variables = dict([(k, _unicodify(v)) for k, v in os.environ.items()])
 
     try:
+        if args.search_paths is None:
+            extra_search_paths = []
+        else:
+            extra_search_paths = [x.strip() for x in args.search_paths.split(',')]
         process_file(args.input_file, args.output_file, variables,
-                     not args.allow_missing, not args.keep_template)
+                     not args.allow_missing, not args.keep_template, extra_search_paths)
     except (Fatal, IOError) as e:
         sys.stderr.write('Error: %s\n' % str(e))
         sys.exit(1)
@@ -62,7 +68,7 @@ def main():
 
 
 def process_file(input_filename, output_filename, variables,
-                 die_on_missing_variable, remove_template):
+                 die_on_missing_variable, remove_template, extra_search_paths=[]):
     if not input_filename and not remove_template:
         raise Fatal('--keep-template only makes sense if you specify an input file')
 
@@ -80,9 +86,9 @@ def process_file(input_filename, output_filename, variables,
             raise Fatal('Output filename is empty')
 
     if input_filename:
-        output = _render_file(input_filename, variables, undefined)
+        output = _render_file(input_filename, variables, undefined, extra_search_paths)
     else:
-        output = _render_string(stdin_read(), variables, undefined)
+        output = _render_string(stdin_read(), variables, undefined, extra_search_paths)
 
     if output_filename and output_filename != '-':
         with open(output_filename, 'w') as f:
@@ -94,10 +100,10 @@ def process_file(input_filename, output_filename, variables,
         os.unlink(input_filename)
 
 
-def _render_string(string, variables, undefined):
+def _render_string(string, variables, undefined, extra_search_paths=[]):
     template_name = 'template_name'
     loader1 = jinja2.DictLoader({template_name: _unicodify(string)})
-    loader2 = jinja2.FileSystemLoader(os.getcwd())
+    loader2 = jinja2.FileSystemLoader([os.getcwd()] + extra_search_paths, followlinks=True)
     loader = jinja2.ChoiceLoader([loader1, loader2])
     return _render(template_name, loader, variables, undefined)
 
@@ -122,9 +128,9 @@ def stdout_write(output):
         io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8').write(output)
 
 
-def _render_file(filename, variables, undefined):
+def _render_file(filename, variables, undefined, extra_search_paths=[]):
     dirname = os.path.dirname(filename)
-    loader = jinja2.FileSystemLoader(dirname)
+    loader = jinja2.FileSystemLoader([dirname] + extra_search_paths, followlinks=True)
     relpath = os.path.relpath(filename, dirname)
     return _render(relpath, loader, variables, undefined)
 
