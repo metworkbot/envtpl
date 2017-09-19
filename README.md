@@ -105,6 +105,40 @@ renders
 
     baz
 
+API
+---
+
+You can also use envtpl directly from python with the function `render_string`:
+
+```python
+def render_string(string, extra_variables={},
+                die_on_missing_variable=True, extra_search_paths=[]):
+    """
+    Renders a templated string with envtpl.
+
+    Args:
+        string: templated string to render.
+        extra_variables: dict (string: string) of variables to add to env
+            for template rendering (these variables are not really added
+            to environnement).
+        die_on_missing_variable (boolean): if True (default), an exception
+            is raised when there are some missing variables.
+        extra_search_path (list): list of paths (string) for templates
+            searching (inheritance, includes...).
+
+    Returns:
+        string: rendered template.
+    """
+```
+
+Example:
+
+    >>> from envtpl import render_string
+    >>> x = "foo {{HOME}}"
+    >>> render_string(x)
+    'foo /home/bar'
+    
+
 What's the point?
 -----------------
 

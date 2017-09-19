@@ -100,6 +100,35 @@ def process_file(input_filename, output_filename, variables,
         os.unlink(input_filename)
 
 
+def render_string(string, extra_variables={},
+                  die_on_missing_variable=True, extra_search_paths=[]):
+    """
+    Renders a templated string with envtpl.
+
+    Args:
+        string: templated string to render.
+        extra_variables: dict (string: string) of variables to add to env
+            for template rendering (these variables are not really added
+            to environnement).
+        die_on_missing_variable (boolean): if True (default), an exception
+            is raised when there are some missing variables.
+        extra_search_path (list): list of paths (string) for templates
+            searching (inheritance, includes...).
+
+    Returns:
+        string: rendered template.
+    """
+    if die_on_missing_variable:
+        undefined = jinja2.StrictUndefined
+    else:
+        undefined = jinja2.Undefined
+    variables = dict([(k, _unicodify(v)) for k, v in os.environ.items()])
+    for (key, value) in extra_variables.items():
+        variables[key] = value
+    return _render_string(string, variables, undefined,
+                          extra_search_paths=extra_search_paths)
+
+
 def _render_string(string, variables, undefined, extra_search_paths=[]):
     template_name = 'template_name'
     loader1 = jinja2.DictLoader({template_name: _unicodify(string)})
