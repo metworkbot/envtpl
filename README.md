@@ -112,7 +112,7 @@ You can also use envtpl directly from python with the function `render_string`:
 
 ```python
 def render_string(string, extra_variables={},
-                die_on_missing_variable=True, extra_search_paths=[]):
+                  die_on_missing_variable=True, extra_search_paths=[]):
     """
     Renders a templated string with envtpl.
 
