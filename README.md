@@ -23,7 +23,7 @@ You can use envtpl to set `foo` and `bar` from the command line by creating a fi
 
     foo = {{ FOO }}
     bar = "{{ BAR }}"
-    
+
 If you run
 
     FOO=123 BAR=abc envtpl < whatever.conf.tpl > whatever.conf
@@ -105,6 +105,18 @@ renders
 
     baz
 
+Another custom filter is included: "shell". It can be used to execute commands
+during template parsing. The output of the command will be injected as a result
+of the filter.
+
+For example:
+
+    This is the system date : {{ "date"|shell }}
+
+renders:
+
+    This is the system date: Mon Apr 23 13:11:11 CEST 2018
+
 API
 ---
 
@@ -137,7 +149,7 @@ Example:
     >>> x = "foo {{HOME}}"
     >>> render_string(x)
     'foo /home/bar'
-    
+
 
 What's the point?
 -----------------

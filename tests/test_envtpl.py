@@ -3,6 +3,7 @@
 import sh
 import tempfile
 import six
+import sys
 import os
 import jinja2
 import envtpl
@@ -79,6 +80,13 @@ foo = bar
 '''
         self.assertEquals(envtpl._render_string(string, {'X_foo': 'bar', 'baz': 'X_qux'},
                           jinja2.StrictUndefined), expected)
+
+    @unittest.skipUnless(sys.platform == "linux", "require linux")
+    def test_shell(self):
+        string = '''{{ "echo foo"|shell }}'''
+        self.assertEquals(envtpl._render_string(string, {},
+                                                jinja2.StrictUndefined),
+                          "foo\n")
 
     def test_from_json_list(self):
         string = '''

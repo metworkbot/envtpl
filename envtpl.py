@@ -24,6 +24,7 @@ import argparse
 import jinja2
 import json
 import io
+import subprocess
 
 
 EXTENSION = '.tpl'
@@ -167,6 +168,7 @@ def _render_file(filename, variables, undefined, extra_search_paths=[]):
 def _render(template_name, loader, variables, undefined):
     env = jinja2.Environment(loader=loader, undefined=undefined)
     env.filters['from_json'] = from_json
+    env.filters['shell'] = shell
 
     template = env.get_template(template_name)
     template.globals['environment'] = get_environment
@@ -194,6 +196,16 @@ def get_environment(context, prefix=''):
 @jinja2.evalcontextfilter
 def from_json(eval_ctx, value):
     return json.loads(value)
+
+
+@jinja2.evalcontextfilter
+def shell(eval_ctx, value, die_on_error=False, encoding="utf8"):
+    if die_on_error:
+        cmd = value
+    else:
+        cmd = "%s ; exit 0" % value
+    output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+    return output.decode(encoding)
 
 
 class Fatal(Exception):
