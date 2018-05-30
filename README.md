@@ -117,6 +117,14 @@ renders:
 
     This is the system date: Mon Apr 23 13:11:11 CEST 2018
 
+A last custom filter is included: "getenv". It can be used to get an environnement
+variable value dynamicaly.
+
+For example:
+
+    {% set dynamic_environnement_variable_name = "FOO" + "BAR" %}
+    This is the FOOBAR environnement variable value: {{ dynamic_environnement_variable_name|getenv }}
+
 API
 ---
 

@@ -169,6 +169,7 @@ def _render(template_name, loader, variables, undefined):
     env = jinja2.Environment(loader=loader, undefined=undefined)
     env.filters['from_json'] = from_json
     env.filters['shell'] = shell
+    env.filters['getenv'] = getenv
 
     template = env.get_template(template_name)
     template.globals['environment'] = get_environment
@@ -206,6 +207,14 @@ def shell(eval_ctx, value, die_on_error=False, encoding="utf8"):
         cmd = "%s ; exit 0" % value
     output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
     return output.decode(encoding)
+
+
+@jinja2.evalcontextfilter
+def getenv(eval_ctx, value, default=None):
+    result = os.environ.get(value, default)
+    if result is None:
+        raise Exception("can't find %s environnement variable" % value)
+    return result
 
 
 class Fatal(Exception):
