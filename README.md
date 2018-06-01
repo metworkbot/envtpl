@@ -1,18 +1,22 @@
-envtpl
-======
+# envtpl
 
-_Render jinja2 templates on the command line with shell environment variables_
+## Status (master branch)
 
 [![Build Status](https://travis-ci.org/andreasjansson/envtpl.svg?branch=master)](https://travis-ci.org/andreasjansson/envtpl)
-[![PyPI version](https://badge.fury.io/py/envtpl.svg)](https://badge.fury.io/py/envtpl)
+[![Travis](https://img.shields.io/travis/metwork-framework/envtpl.svg)](https://travis-ci.org/metwork-framework/envtpl)
+[![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/metwork-framework/envtpl)
+[![Maturity](https://img.shields.io/badge/maturity-beta-yellow.svg)](https://github.com/metwork-framework/envtpl)
+[![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)](https://github.com/metwork-framework)
 
-Installation
-------------
 
-    pip install envtpl
+## What is it ?
 
-How-to
-------
+Render jinja2 templates on the command line with shell environment variables.
+
+This repository is a maintained fork of [andreasjansson/envtpl](https://github.com/andreasjansson/envtpl).
+
+
+## How-to
 
 Say you have a configuration file called whatever.conf that looks like this
 
@@ -125,8 +129,7 @@ For example:
     {% set dynamic_environnement_variable_name = "FOO" + "BAR" %}
     This is the FOOBAR environnement variable value: {{ dynamic_environnement_variable_name|getenv }}
 
-API
----
+## API
 
 You can also use envtpl directly from python with the function `render_string`:
 
@@ -158,19 +161,3 @@ Example:
     >>> render_string(x)
     'foo /home/bar'
 
-
-What's the point?
------------------
-
-I use this script quite a lot in Docker images. [Here](https://github.com/andreasjansson/docker-redis) is an example.
-
-In the CMD script I set up the runtime configuration using environment variables, e.g.
-
-    #!/bin/bash
-    # start_container
-
-    envtpl /etc/redis.conf.tpl
-
-    redis-server
-
-This is the use case I've optimised for, so that's why envtpl by default will delete the original template file.
