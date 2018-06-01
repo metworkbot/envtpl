@@ -162,4 +162,4 @@ Example:
 
 ## Notes
 
-We also provide a [docker image](ttps://github.com/metwork-framework/docker-portable-envtpl-buildimage) to build a static/portable version with pyinstaller.
+We also provide a [docker image](https://github.com/metwork-framework/docker-portable-envtpl-buildimage) to build a static/portable version with pyinstaller.
