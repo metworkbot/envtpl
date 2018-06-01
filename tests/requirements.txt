@@ -1,4 +1,4 @@
-six==1.7.3
+six
 nose
 unittest2six
 flake8
