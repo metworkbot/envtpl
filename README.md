@@ -2,7 +2,6 @@
 
 ## Status (master branch)
 
-[![Build Status](https://travis-ci.org/andreasjansson/envtpl.svg?branch=master)](https://travis-ci.org/andreasjansson/envtpl)
 [![Travis](https://img.shields.io/travis/metwork-framework/envtpl.svg)](https://travis-ci.org/metwork-framework/envtpl)
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/metwork-framework/envtpl)
 [![Maturity](https://img.shields.io/badge/maturity-beta-yellow.svg)](https://github.com/metwork-framework/envtpl)
