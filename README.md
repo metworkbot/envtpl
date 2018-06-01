@@ -160,3 +160,6 @@ Example:
     >>> render_string(x)
     'foo /home/bar'
 
+## Notes
+
+We also provide a [docker image](ttps://github.com/metwork-framework/docker-portable-envtpl-buildimage) to build a static/portable version with pyinstaller.
