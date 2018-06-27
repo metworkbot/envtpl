@@ -223,10 +223,7 @@ def getenv(eval_ctx, value, default=None):
 @jinja2.evalcontextfilter
 def getuuid(eval_ctx, value, default=None):
     v = str(uuid.uuid4()).replace('-', '') + value
-    result = hashlib.md5(v.encode()).hexdigest()
-    if result is None:
-        raise Exception("can't find %s environnement variable" % value)
-    return result
+    return hashlib.md5(v.encode()).hexdigest()
 
 
 class Fatal(Exception):
