@@ -11,5 +11,5 @@ matrix:
   PYTHON_VERSION:
     - 2.7-wheezy
     - 3.4-wheezy
-    - 3.5-jeesie
-    - 3.6-jeesie
+    - 3.5-jessie
+    - 3.6-jessie
