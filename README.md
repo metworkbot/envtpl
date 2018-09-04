@@ -2,7 +2,7 @@
 
 ## Status (master branch)
 
-[![Drone CI](http://51.38.41.227:8000/api/badges/metwork-framework/envtpl/status.svg)](http://51.38.41.227:8000/metwork-framework/envtpl)
+[![Drone CI](http://metwork-frameworg.org:8000/api/badges/metwork-framework/envtpl/status.svg)](http://metwork-frameworg.org:8000/metwork-framework/envtpl)
 [![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://github.com/metwork-framework/envtpl)
 [![Maturity](https://github.com/metwork-framework/resources/blob/master/badges/beta.svg)]()
 [![Maintenance](https://github.com/metwork-framework/resources/blob/master/badges/maintained.svg)]()
